@@ -1,0 +1,14 @@
+1. 安裝docker、本機安裝nodejs
+2.下載提供的github連結
+3. 終端機輸入，下列指令啟動docker：
+	a.啟動RabbitMQ：
+		docker run --name rabbitmq -d -p 15672:15672 -p 5672:5672 -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=admin1234 rabbitmq:management
+	b.啟動mysql：
+	      docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=admin1234 -d mysql:8
+		  docker exec -it mysql bash
+		  mysql -u root -p
+		  輸入密碼：admin1234
+		  
+
+4.開啟專案，在終端機安裝套件：npm i
+5.在終端機輸入：npm start
