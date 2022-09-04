@@ -1,0 +1,46 @@
+doctype html
+html
+    head
+        script(type='module').
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-app.js";
+            import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-messaging.js";
+
+            const firebaseConfig =  {
+                apiKey: "AIzaSyDEXeIXtQcLpOa-298QH8C3QC0ms-fwlPI",
+                authDomain: "rabbitmq-2e76b.firebaseapp.com",
+                projectId: "rabbitmq-2e76b",
+                storageBucket: "rabbitmq-2e76b.appspot.com",
+                messagingSenderId: "366417931563",
+                appId: "1:366417931563:web:35c3dd35447c0b057e696e",
+                measurementId: "G-8Q894706VS"
+            }
+            const app = initializeApp(firebaseConfig);
+
+            if('serviceWorker' in navigator){
+                const messaging = getMessaging(app)
+
+                navigator.serviceWorker.register('firebase-messaging-sw.js').then((register) => {
+                    Notification.requestPermission().then(() => {
+                        getToken(messaging).then((currentToken)=>{
+                            var elemDiv = document.createElement('div');
+                            var newContent = document.createTextNode('Token: ' + currentToken);
+                            elemDiv.appendChild(newContent);
+                            document.body.appendChild(elemDiv);
+                        })
+                    });
+                })
+
+                onMessage(messaging, (payload)=>{
+                    const noti = payload.notification
+
+                    var elemDiv = document.createElement('div');
+                    var newContent = document.createTextNode('title: ' + noti.title + ' body: ' + noti.body);
+                    elemDiv.appendChild(newContent);
+                    document.body.appendChild(elemDiv);
+                    console.log("onMessage event fired",payload)
+                })
+            } else {
+                console.log('Service Worker not supported')
+            }
+
+    body
